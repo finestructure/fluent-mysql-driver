@@ -20,6 +20,15 @@ extension MySQLError: DatabaseError {
         }
     }
 
+    public var isUniqueViolation: Bool {
+        switch self {
+            case .duplicateEntry(_):
+                return true
+            default:
+                return false
+        }
+    }
+
     public var isConnectionClosed: Bool {
         switch self {
             case .closed:

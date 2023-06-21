@@ -56,7 +56,8 @@ final class FluentMySQLDriverTests: XCTestCase {
             try sql.insert(into: "foo").columns("name").values("bar").run().wait()
             try sql.insert(into: "foo").columns("name").values("bar").run().wait()
         } catch let error as DatabaseError where error.isConstraintFailure {
-            // pass
+            // error must also satisfy the narrower unique violation
+            XCTAssertTrue(error.isUniqueViolation)
         } catch {
             XCTFail("\(error)")
         }
